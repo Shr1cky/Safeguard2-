@@ -8,7 +8,7 @@ import Layout from './components/Layout'
 function App() {
   return (
     <ProfileProvider>
-      <Router>
+      <Router basename="/Safeguard2-">
         <Layout>
           <Routes>
             <Route path="/" element={<Home />} />
