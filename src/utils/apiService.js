@@ -2,39 +2,9 @@
 /**
  * API Service for content analysis using OpenAI
  */
-
-// DEBUG: Log environment variables on module load
-console.log('🔍 Environment Check:', {
-  hasKey: !!import.meta.env.VITE_OPENAI_API_KEY,
-  keyPreview: import.meta.env.VITE_OPENAI_API_KEY 
-    ? import.meta.env.VITE_OPENAI_API_KEY.substring(0, 10) + '...' 
-    : 'NOT FOUND',
-  allViteKeys: Object.keys(import.meta.env).filter(k => k.startsWith('VITE_'))
-})
-
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://api.openai.com/v1'
-
-// Read API key with better error handling
-function getApiKey() {
-  const key = import.meta.env.VITE_OPENAI_API_KEY
-  // Check for undefined, null, or empty string
-  if (!key || (typeof key === 'string' && key.trim() === '')) {
-    console.error('API Key Debug:', {
-      exists: !!import.meta.env.VITE_OPENAI_API_KEY,
-      value: import.meta.env.VITE_OPENAI_API_KEY ? '***' + import.meta.env.VITE_OPENAI_API_KEY.slice(-4) : 'undefined',
-      allEnvKeys: Object.keys(import.meta.env).filter(k => k.startsWith('VITE_'))
-    })
-    return null
-  }
-  return typeof key === 'string' ? key.trim() : key
-}
+const API_BASE_URL = 'https://openai-proxy.viggolakner.workers.dev'
 
 export async function analyzeContentWithAI(title, contentType, profile = null) {
-  const API_KEY = getApiKey()
-  
-  if (!API_KEY) {
-    throw new Error('OpenAI API key is not configured. Please set VITE_OPENAI_API_KEY in your .env file and restart the dev server.')
-  }
 
   const profileContext = profile 
     ? `The child is ${profile.age} years old. ${profile.sensitivities?.fearSensitive ? 'They are sensitive to fear/horror. ' : ''}${profile.sensitivities?.violenceSensitive ? 'They are sensitive to violence. ' : ''}`
@@ -90,12 +60,12 @@ Important guidelines:
 Return ONLY valid JSON, no additional text.`
 
   try {
-    const response = await fetch(`${API_BASE_URL}/chat/completions`, {
+    const response = await fetch(API_BASE_URL, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_KEY}`
+        'Content-Type': 'application/json'
       },
+      
       body: JSON.stringify({
         model: 'gpt-4o-mini', // Using gpt-4o-mini for cost efficiency, can be changed to gpt-4 or gpt-3.5-turbo
         messages: [
