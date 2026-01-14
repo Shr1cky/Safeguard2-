@@ -4,6 +4,7 @@
  */
 const API_BASE_URL = 'https://openai-proxy.viggolakner.workers.dev'
 
+
 export async function analyzeContentWithAI(title, contentType, profile = null) {
 
   const profileContext = profile 
@@ -65,7 +66,7 @@ Return ONLY valid JSON, no additional text.`
       headers: {
         'Content-Type': 'application/json'
       },
-      
+
       body: JSON.stringify({
         model: 'gpt-4o-mini', // Using gpt-4o-mini for cost efficiency, can be changed to gpt-4 or gpt-3.5-turbo
         messages: [
