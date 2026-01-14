@@ -26,7 +26,6 @@ A fast content-scanning tool that lets parents evaluate books, movies, and shows
 ```bash
 npm install
 ```
-
 2. Set up your OpenAI API key:
    - Copy `.env.example` to `.env`:
      ```bash
