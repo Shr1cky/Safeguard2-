@@ -43,6 +43,7 @@ npm install
 npm run dev
 ```
 
+
 4. Open your browser to `http://localhost:5173`
 
 **Note:** The app will work without an API key, but will use mock data. For real AI-powered content analysis, you need to configure the OpenAI API key.
